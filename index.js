@@ -5,9 +5,6 @@ import cookieParser from 'cookie-parser';
 
 
 
-import { fileURLToPath } from "url";
-import path from "path";
-
 // import bodyParser from 'body-parser';
 // import axios from 'axios';
 
@@ -19,9 +16,6 @@ import purchaseRoutes from './routes/purchaseRoutes.js';
 
 
 
-// ES modules workaround for __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 
 
@@ -59,16 +53,6 @@ app.use("/api", purchaseRoutes); // Use the purchase routes
 mongoose.connect(DB_URI)
 .then(() => {console.log('Connected to MongoDB');})
 .catch(err => console.error('MongoDB connection error:', err));
-
-
-
-// Serve React build
-app.use(express.static(path.join(__dirname, "home-finder-client/build")));
-
-// Catch-all route: send React index.html for non-API requests
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "home-finder-client/build", "index.html"));
-});
 
 
 
