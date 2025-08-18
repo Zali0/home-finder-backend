@@ -27,8 +27,9 @@ app.use(express.json());
 dotenv.config();
 
 
-const PORT = REACT_APP_API_URL.PORT || 7000;
-const DB_URI = REACT_APP_API_URL.ATLAS_URI;
+const PORT = process.env.PORT || 7000;
+const DB_URI = process.env.ATLAS_URI;
+
 
 
 app.use('/api', userRoute); // Use the user routes
