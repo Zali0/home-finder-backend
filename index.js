@@ -19,7 +19,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: ['http://localhost:3000', "https://zali0.github.io"],
   credentials: true               
 }));
 app.use(cookieParser());
@@ -27,9 +27,8 @@ app.use(express.json());
 dotenv.config();
 
 
-const PORT = process.env.PORT || 7000;
-const DB_URI = process.env.ATLAS_URI;
-
+const PORT = REACT_APP_API_URL.PORT || 7000;
+const DB_URI = REACT_APP_API_URL.ATLAS_URI;
 
 
 app.use('/api', userRoute); // Use the user routes
