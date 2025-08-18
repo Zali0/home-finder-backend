@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+
 // import bodyParser from 'body-parser';
 // import axios from 'axios';
 
@@ -45,6 +46,18 @@ app.use("/api", purchaseRoutes); // Use the purchase routes
 mongoose.connect(DB_URI)
 .then(() => {console.log('Connected to MongoDB');})
 .catch(err => console.error('MongoDB connection error:', err));
+
+const path = require("path");
+
+
+
+// Serve frontend build
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+
 
 
 
