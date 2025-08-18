@@ -13,6 +13,13 @@ import purchaseRoutes from './routes/purchaseRoutes.js';
 
 
 
+// ES modules workaround for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+
+
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
@@ -49,21 +56,12 @@ mongoose.connect(DB_URI)
 
 
 
-import path from "path";
-import { fileURLToPath } from "url";
+// Serve React build
+app.use(express.static(path.join(__dirname, "home-finder-client/build")));
 
-// Fix __dirname in ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
-
-// Serve frontend build
-app.use(express.static(path.join(__dirname, "client/build")));
-
-// ✅ Proper catch-all
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+// Catch-all route: send React index.html for non-API requests
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "home-finder-client/build", "index.html"));
 });
 
 
