@@ -53,37 +53,38 @@ route.post('/login', async (req, res) => {
 
 
 
-route.get("/profile", (req, res) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: "No token" });
-  }
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    res.json({ user: decoded }); // return only user info
-  } catch (err) {
-    res.status(403).json({ message: "Invalid or expired token" });
-  }
-});
-
 // route.get("/profile", (req, res) => {
 //   const token = req.cookies.token;
-//   if (!token) return res.status(401).json({ message: "No token" });
+//   console
+//   if (!token) {
+//     return res.status(401).json({ message: "No token" });
+//   }
 
 //   try {
 //     const decoded = jwt.verify(token, JWT_SECRET);
-//     // console.log("User profile role accessed:", decoded.role);
-
-//     if (decoded.role) {
-//       res.json({token: token, user: decoded });
-      
-//     }
-
+//     res.json({ user: decoded }); // return only user info
 //   } catch (err) {
 //     res.status(403).json({ message: "Invalid or expired token" });
 //   }
 // });
+
+route.get("/profile", (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: "No token" });
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    // console.log("User profile role accessed:", decoded.role);
+
+    if (decoded.role) {
+      res.json({token: token, user: decoded });
+      
+    }
+
+  } catch (err) {
+    res.status(403).json({ message: "Invalid or expired token" });
+  }
+});
 
 route.post("/logout", (req, res) => {
   res.clearCookie("token").json({ message: "Logged out" });
