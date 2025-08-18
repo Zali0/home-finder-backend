@@ -47,7 +47,14 @@ mongoose.connect(DB_URI)
 .then(() => {console.log('Connected to MongoDB');})
 .catch(err => console.error('MongoDB connection error:', err));
 
-const path = require("path");
+
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Fix __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 
@@ -57,7 +64,6 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
-
 
 
 
