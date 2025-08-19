@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 
 export const create = async (req, res) => {
     try {
+        console.log('Req:', req)
         const newUser = new User(req.body);
         const {email} = newUser;
 
@@ -14,6 +15,7 @@ export const create = async (req, res) => {
         
         const salt = await bcrypt.genSalt(10); 
         const hashedPassword = await bcrypt.hash(User({password}), salt)
+        console.log('Hashed pass : ', hashedPassword)
 
         const newUserData = new User({name, email, password: hashedPassword, role});
        
