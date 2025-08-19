@@ -2,8 +2,8 @@ import User from '../models/Users.js';
 
 export const create = async (req, res) => {
     try {
-        const newuserdata = new User(req.body);
-        const {email} = newuserdata;
+        const newUser = new User(req.body);
+        const {email} = newUser;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -14,7 +14,7 @@ export const create = async (req, res) => {
         const salt = await bcrypt.genSalt(10); 
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const newUser = new User({name, email, password: hashedPassword, role});
+        // const newUser = new User({name, email, password: hashedPassword, role});
 
         const savedUser = await newUser.save();
         res.status(200).json({ message: 'User created successfully', user: savedUser });
