@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 const route = express.Router();
 import dotenv from 'dotenv';
 import User from '../models/Users.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 dotenv.config();
 
