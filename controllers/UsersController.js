@@ -1,4 +1,5 @@
 import User from '../models/Users.js';
+import bcrypt from 'bcryptjs'
 
 export const create = async (req, res) => {
     try {
@@ -14,9 +15,10 @@ export const create = async (req, res) => {
         const salt = await bcrypt.genSalt(10); 
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        // const newUser = new User({name, email, password: hashedPassword, role});
+        const newUserData = new User({name, email, password: hashedPassword, role});
+       
 
-        const savedUser = await newUser.save();
+        const savedUser = await newUserData.save();
         res.status(200).json({ message: 'User created successfully', user: savedUser });
     }
        
