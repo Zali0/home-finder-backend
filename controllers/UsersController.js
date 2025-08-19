@@ -15,7 +15,6 @@ export const create = async (req, res) => {
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log("Hashed pass:", hashedPassword);
 
     // Save new user with hashed password
     const newUser = new User({

@@ -20,7 +20,6 @@ export const create = async (req, res) => {
 
 // Get all properties
 export const getAllProperties = async (req, res) => {
-  // console.log(SECRET_KEY);
   try {
     const properties = await Property.find();
     if (!properties || properties.length === 0) {
@@ -84,7 +83,6 @@ export const deleteProperty = async (req, res) => {
 // Verify payment
 export const verifyPayment =  async (req, res) => {
   const { reference, propertyId, amount, email } = req.body;
-  console.log("Verifying payment for ref:", reference);
 
   try {
     const response = await axios.get(
@@ -96,7 +94,7 @@ export const verifyPayment =  async (req, res) => {
       }
     );
 
-    console.log("Paystack response:", response.data);
+    
 
     if (response.data.status && response.data.data.status === "success") {
       // TODO: Save transaction and update property
@@ -105,7 +103,6 @@ export const verifyPayment =  async (req, res) => {
       return res.json({ status: "failed", message: "Payment not verified" });
     }
   } catch (error) {
-    console.error("Error verifying payment:", error.response?.data || error.message);
     res.status(500).json({ status: "error", message: "Verification failed" });
   }
 };

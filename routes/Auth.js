@@ -37,36 +37,13 @@ route.post('/login', async (req, res) => {
     });
 
     res.json({ message: "Login successful" , token: token});
-    // console.log(res.data);
-    // console.log("User logged in:", user.email);
-    // console.log("Token issued:", token);
-    // console.log("Token expires in:", rememberMe ? "7 days" : "15 minutes");
 
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
 
-
-
-
-
-// route.get("/profile", (req, res) => {
-//   const token = req.cookies.token;
-//   console
-//   if (!token) {
-//     return res.status(401).json({ message: "No token" });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(token, JWT_SECRET);
-//     res.json({ user: decoded }); // return only user info
-//   } catch (err) {
-//     res.status(403).json({ message: "Invalid or expired token" });
-//   }
-// });
 
 route.get("/profile", (req, res) => {
   const token = req.cookies.token;
@@ -74,7 +51,6 @@ route.get("/profile", (req, res) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    // console.log("User profile role accessed:", decoded.role);
 
     if (decoded.role) {
       res.json({token: token, user: decoded });
