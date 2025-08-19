@@ -2,32 +2,37 @@ import User from '../models/Users.js';
 import bcrypt from 'bcryptjs'
 
 export const create = async (req, res) => {
-    try {
-        console.log('Req:', req)
-        const newUser = new User(req.body);
-        const {email} = newUser;
+  try {
+    // Destructure values from request body
+    const { name, email, password, role } = req.body;
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User with this email already exists' });
-        }
-
-        
-        const salt = await bcrypt.genSalt(10); 
-        const hashedPassword = await bcrypt.hash(User({password}), salt)
-        console.log('Hashed pass : ', hashedPassword)
-
-        const newUserData = new User({name, email, password: hashedPassword, role});
-       
-
-        const savedUser = await newUserData.save();
-        res.status(200).json({ message: 'User created successfully', user: savedUser });
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this email already exists" });
     }
-       
-     catch (error) {
-        res.status(500).json({ message: 'Error creating user', error: error.message });
-    }
-}
+
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log("Hashed pass:", hashedPassword);
+
+    // Save new user with hashed password
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    const savedUser = await newUser.save();
+    res.status(200).json({ message: "User created successfully", user: savedUser });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating user", error: error.message });
+  }
+};
+
+
 
 export const getAllUsers = async (req, res) => {
     try {
