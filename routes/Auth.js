@@ -20,7 +20,7 @@ route.post('/login', async (req, res) => {
     if (!user) return res.status(401).json({ message: "User not found" });
     
 
-    const isMatch = await bcrypt.compare(password, bcrypt.hash(user.password));
+    const isMatch = await bcrypt.compare(password, bcrypt.hash(user.password, 10));
     if (!isMatch) return res.status(401).json({ message: "Invalid Password" });
 
     const token = jwt.sign(
@@ -87,7 +87,12 @@ route.get("/profile", (req, res) => {
 });
 
 route.post("/logout", (req, res) => {
-  res.clearCookie("token").json({ message: "Logged out" });
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "None"
+  });
+  res.json({ message: "Logged out" });
 });
 
 
