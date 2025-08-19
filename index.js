@@ -27,7 +27,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: "https://zali0.github.io",
+  origin: ["localhost:// 3000" , "https://zali0.github.io"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true               
 }));
