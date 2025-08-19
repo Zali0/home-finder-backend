@@ -20,7 +20,7 @@ route.post('/login', async (req, res) => {
     if (!user) return res.status(401).json({ message: "User not found" });
     
 
-    const isMatch = await bcrypt.compare(password, bcrypt.hash(user.password, 10));
+     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: "Invalid Password" });
 
     const token = jwt.sign(
