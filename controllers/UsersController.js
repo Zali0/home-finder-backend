@@ -2,8 +2,8 @@ import User from '../models/Users.js';
 
 export const create = async (req, res) => {
     try {
-        // const newUser = new User(req.body);
-        const {email} = newUser;
+        const newuserdata = new User(req.body);
+        const {email} = newuserdata;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
